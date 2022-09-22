@@ -6,6 +6,7 @@ export default function Dashboard() {
   const handleLogOut = () => {
     navigate("/")
   }
+  
   return (
     <>
     <h1>THIS IS DASHBOARD</h1>
