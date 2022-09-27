@@ -51,7 +51,15 @@ import axios from "../../api/axios"
       }})
        .then(response => {
         if (response.data.length !== 0) {
-          console.log(response.data)
+          
+          const listMessages = response.data
+          const listedMessage = []
+
+          listMessages.forEach(listMessage => {
+            listedMessage.push(listMessage)
+          })
+          
+
         }
        })
     }
@@ -61,6 +69,11 @@ import axios from "../../api/axios"
     const toggleThread = () => {}
   
     
+    listedMessage.map((message)=> {
+
+    })
+
+
       return (
         <div className="_main-text-area w-3/5 ">
           <div className="_chat-header text-center py-5 border-b shadow-sm flex flex-row">
