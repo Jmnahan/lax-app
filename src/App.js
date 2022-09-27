@@ -4,7 +4,7 @@ import Dashboard from "./components/Dashboard";
 
 export default function App() {
   return (
-    <main className="">
+    <main>
       <Routes>
             <Route path="/" element={<Homepage />}/>
             <Route path="/Dashboard" element={<Dashboard />}/>

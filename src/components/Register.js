@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "../api/axios";
 
 export default function Register(props) {
-  const { onToggle, setIsSignedUp } = props
+  const { onToggle, setIsSignedUp, isSubmmited, setIsSubmmited } = props
   const { 
     watch,
     register, 
@@ -17,23 +17,21 @@ export default function Register(props) {
     }
   })  
 
-  const [isSubmmited, SetIsSubmmited] = useState(false);
-
   const handleRegister = async (data) => {
     try {
       const response = await axios.post("api/v1/auth/", data);
-      console.log(response.data)
-      SetIsSubmmited(true)
+      console.log("response data",response.data)
+      setIsSubmmited(true)
     } catch (error) {
-      const errors = error.response.data.errors
-      Object.keys(errors).forEach((field) => {
-        const messages = errors[field];
-        setError(field, {
-          type: "server",
-          message: messages
-        })
-      });
-    }
+        const errors = error.response.data.errors
+        Object.keys(errors).forEach((field) => {
+          const messages = errors[field];
+          setError(field, {
+            type: "server",
+            message: messages
+          })
+        });
+      }
   }
 
   useEffect(()=> {
@@ -61,7 +59,7 @@ export default function Register(props) {
           <label className="absolute ml-1 left-0 -top-3.5 text-sm text-fuchsia-900 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
           peer-focus:-top-3.5 peer-focus:text-fuchsia-500"
           htmlFor="email">Email address</label>
-          <p className="text-red-400 text-sm absolute top-10 indent-1">{errors.email && errors.email?.message}</p>
+          <p className="text-red-400 text-sm absolute top-10">{errors.email && errors.email?.message}</p>
         </div>
         
         <div className="relative flex flex-col mb-4 mt-4">
@@ -80,7 +78,7 @@ export default function Register(props) {
           <label className="absolute ml-1 left-0 -top-3.5 text-sm text-fuchsia-900 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
           peer-focus:-top-3.5 peer-focus:text-fuchsia-500" 
           htmlFor="password">Password</label>
-          <p className="text-red-400 text-sm absolute top-10 indent-1">{errors.password?.message}</p>
+          <p className="text-red-400 text-sm absolute top-10">{errors.password?.message}</p>
         </div> 
 
         <div className="relative flex flex-col mb-12 mt-4">
@@ -100,10 +98,10 @@ export default function Register(props) {
           <label className="absolute ml-1 left-0 -top-3.5 text-sm text-fuchsia-900 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
           peer-focus:-top-3.5 peer-focus:text-fuchsia-500"
           htmlFor="password_confirmation">Confirm Password</label>
-          <p className="text-red-400 text-sm absolute top-10 indent-1">{errors.password_confirmation?.message}</p>
+          <p className="text-red-400 text-sm absolute top-10">{errors.password_confirmation?.message}</p>
         </div>
 
-        <button className="mb-2 p-1 bg-fuchsia-700 tracking-wide font-semibold hover:bg-fuchsia-500 rounded-md hover:text-white" 
+        <button className="mb-2 p-1 bg-fuchsia-700 tracking-wide text-white font-semibold hover:bg-fuchsia-500 rounded-md" 
         type="submit" 
         >Register</button>
       </form>
