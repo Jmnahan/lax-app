@@ -7,21 +7,8 @@ export default function Login(props) {
   const { onToggle } = props
   const navigate = useNavigate();
   const [ proceedLogin, setProceedLogin] = useState(false);
-  const [id, setId] = useState("");
-  const [accessToken, setAccessToken] = useState("");
-  const [tokenType, setTokenType] = useState("");
-  const [client, setClient] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [uid, setUid] = useState("");
-
-  const headerValue = { 
-    id: id,
-    uid: uid,
-    expiry: expiry,
-    client: client,
-    tokenType: tokenType,
-    accessToken: accessToken,
-  }
+  JSON.parse(localStorage.getItem("loggedUser") || "{}");
+  const headerValue = {}
 
   const { 
     register,  
@@ -31,17 +18,15 @@ export default function Login(props) {
       defaultValues: {
       email: "",
       password: ""
-    }})
+  }});
 
   const handleLogIn = async (data) => {
     try {
       const response = await axios.post("api/v1/auth/sign_in", data);
-      setId(response.data.data.id)
-      setAccessToken(response.headers["access-token"])
-      setTokenType(response.headers["token-type"])
-      setClient(response.headers.client)
-      setExpiry(response.headers.expiry)
-      setUid(response.headers.uid)
+      const id =  response.data.data.id
+      const header = response.headers
+      const addHeader = {...headerValue, ...header, id }
+      setToLocal(addHeader)
       setProceedLogin(true)
     } catch (error) {
         const errors = error.response.data.errors
@@ -52,19 +37,15 @@ export default function Login(props) {
       }
   }
 
-  let localHeaders = JSON.parse(localStorage.getItem("localUsers") || "[]");
+  const setToLocal = (addHeader) => {
+    localStorage.setItem("loggedUser",JSON.stringify(addHeader));
+  }
+
   useEffect(() => {
     if (Object.keys(errors).length === 0 && proceedLogin) {
       navigate("./Dashboard")
     }
   }, [errors, proceedLogin, navigate]);
-
-  useEffect(() => {
-    if(proceedLogin) {
-      localHeaders.push(headerValue)
-      localStorage.setItem("localUsers",JSON.stringify(localHeaders));
-    }
-  })
 
   return (
     <>
