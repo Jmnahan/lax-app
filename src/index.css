@@ -7,3 +7,17 @@
   margin: 0;
   padding: 0;
 }
+
+@keyframes slidein-right {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.left {
+  animation: 1.5s slidein-right;
+  transition-timing-function: linear;
+}
