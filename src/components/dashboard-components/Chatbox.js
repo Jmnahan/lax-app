@@ -14,7 +14,7 @@ import axios from "../../api/axios"
 
     const sendMessage = async () => {
         await axios.post(
-            `/api/v1/messages?receiver_id=${receipientID}&receiver_class=User&body=${message}`, {
+            `/api/v1/messages?receiver_id=$&receiver_class=User&body=${message}`, {
 
             })
        
