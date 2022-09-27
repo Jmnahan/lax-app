@@ -1,9 +1,20 @@
-import { useState } from "react"
+import { data } from "autoprefixer"
+import { useState, useEffect } from "react"
 import axios from "../../api/axios"
  const ChatBox = (props) => {
    
-    const [message,setMessage] = useState()
-  
+    const [message,setMessage] = useState('')
+    const localHeaders = JSON.parse(localStorage.getItem('localUsers'))
+
+    const localClient = localHeaders[0].client
+    const localToken = localHeaders[0].accessToken
+    const localID = localHeaders[0].id
+    const localUID = localHeaders[0].uid
+    const localExpiry = localHeaders[0].expiry
+
+    useEffect(()=>{
+      setMessage(message)
+    },[message])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -11,14 +22,41 @@ import axios from "../../api/axios"
         setMessage('')
     }
   
-
     const sendMessage = async () => {
-        await axios.post(
-            `/api/v1/messages?receiver_id=${receipientID}&receiver_class=User&body=${message}`, {
+      const newMessage = {
+        receiver_id: 1,
+        receiver_class: "User",
+        body: message
+      }
 
-            })
-       
+      await axios.post(`/api/v1/messages`, newMessage, 
+      {headers: {
+        client: localClient,
+        exipry: localExpiry,
+        "access-token": localToken,
+        uid: localUID,
+      }})
+       .then(response => {console.log(response.data)})
     }
+
+
+
+    const receiveMessage = async () => {
+      await axios.get(`/api/v1/messages?receiver_id=1&receiver_class=User`, 
+      {headers: {
+        "access-token": localToken,
+        client: localClient,
+        exipry: localExpiry,
+        uid: localUID,
+      }})
+       .then(response => {
+        if (response.data.length !== 0) {
+          console.log(response.data)
+        }
+       })
+    }
+
+    receiveMessage()
   
     const toggleThread = () => {}
   
@@ -55,7 +93,7 @@ import axios from "../../api/axios"
   
             <span className="fixed bottom-0 p-3 border-t border-black shadow-sm w-3/5">
                 <form onSubmit={handleSubmit}>
-                    <input type="text" value= {message} onChange= {(e)=> e.target.value} className="border w-[80%] rounded-full"></input>
+                    <input type="text" value= {message} onChange = {(e)=> setMessage(e.target.value)} className="border w-[80%] rounded-full"></input>
                 </form>
             </span>
         </div>
