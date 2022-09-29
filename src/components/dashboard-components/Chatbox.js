@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "../../api/axios";
-import List from "./List.js";
+import Chatmessages from "./Chatmessages";
 const ChatBox = (props) => {
   const {
     localClient,
@@ -13,6 +13,7 @@ const ChatBox = (props) => {
   const [message, setMessage] = useState("");
   const [render, setRender] = useState();
   const [counter, setCounter] = useState(0);
+  const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
     setMessage(message);
@@ -45,51 +46,32 @@ const ChatBox = (props) => {
         setCounter((counter) => counter + 1);
       });
   };
-  const receiveMessage = async () => {
-    await axios
-      .get(`/api/v1/messages?receiver_id=1&receiver_class=User`, {
-        headers: {
-          "access-token": localToken,
-          client: localClient,
-          exipry: localExpiry,
-          uid: localUID,
-        },
-      })
-      .then((response) => {
-        if (response.data.length !== 0) {
-          let messageData = response.data;
-          console.log(messageData);
-          getList(messageData);
-        } else {
-          console.log("no message");
-        }
-      });
-  };
-  const getList = (val) => {
-    console.log(val);
-    return (
-      <>
-        {val.data.map( data => (
-          data.body
-        ))}
-      </>
 
-      // val.map(body => {
-      //   return <div>
-      //       {body.body}
-      //     </div>
-      // })
-    );
-  };
+  useEffect(() => {
+    const receiveMessage = async () => {
+      await axios
+        .get(`/api/v1/messages?receiver_id=1&receiver_class=User`, {
+          headers: {
+            "access-token": localToken,
+            client: localClient,
+            exipry: localExpiry,
+            uid: localUID,
+          },
+        })
+        .then((response) => {
+          if (response.data.length !== 0) {
+            let messageData = response.data.data;
+            setMessageList(messageData)
+          } else {
+            console.log("no message");
+          }
+        });
+    };
+    receiveMessage();
+  }, [localClient, localExpiry, localToken, localUID, messageList]);
 
-  receiveMessage();
   const toggleThread = () => {};
 
-  // const list = listArr.map(data => 
-  //   <div>{data.body}</div>
-  // )
-
- 
   return (
     <div className="_main-text-area w-3/5 ">
       <div className="_chat-header text-center py-5 border-b shadow-sm flex flex-row">
@@ -98,8 +80,9 @@ const ChatBox = (props) => {
           <button onClick={toggleThread}>toggle</button>
         </div>
       </div>
-
-      <p>dasdasda</p>
+        <Chatmessages
+          messageList={messageList}
+        />
       <span className="fixed bottom-0 p-3 border-t border-black shadow-sm w-3/5">
         <form onSubmit={handleSubmit}>
           <input
