@@ -2,9 +2,21 @@ import { useNavigate } from "react-router-dom";
 import ChatBox from '../components/dashboard-components/Chatbox'
 import Thread from '../components/dashboard-components/Thread'
 import SideBar from '../components/dashboard-components/Sidebar'
+import { useState } from "react";
 
 
 export default function Dashboard() {
+  const [messageThread, setMessageThread] = useState([])
+  const [receipient, setReceipient] = useState("")
+  const [receipientID, setReceipientID] = useState()
+  const localHeaders = JSON.parse(localStorage.getItem("loggedUser"));
+
+  const localClient = localHeaders.client;
+  const localToken = localHeaders["access-token"];
+  const localID = localHeaders.id;
+  const localUID = localHeaders.uid;
+  const localExpiry = localHeaders.expiry;
+
   const navigate = useNavigate();
 
   const handleLogOut = () => {
@@ -19,7 +31,15 @@ export default function Dashboard() {
     <>
     <section className="flex flex-row w-screen h-screen">
       <SideBar handleLogOut = {handleLogOut} createChannel={createChannel}/>
-      <ChatBox/>
+      <ChatBox 
+      localClient ={localClient} 
+      localToken = {localToken} 
+      localID = {localID} 
+      localUID = {localUID} 
+      localExpiry = {localExpiry}
+      messageThread = {messageThread}
+      setMessageThread = {setMessageThread}
+      />
       <Thread/>
     </section>
     </>
