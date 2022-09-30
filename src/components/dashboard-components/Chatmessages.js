@@ -3,8 +3,10 @@ const Chatmessages = (props) => {
   return (
     <div>
       {messageList.map((data) => (
-          <div key={data.id}>
-            <p>{data.body}</p>
+          <div className="ml-2 " 
+          key={data.id}>
+            <div className="text-xs mt-4">{data.sender.email}</div>
+            <p className=" rounded-lg w-fit p-3 bg-purple-200">{data.body}</p>
           </div>
       ))}
     </div>

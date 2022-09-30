@@ -9,6 +9,7 @@ const ChatBox = (props) => {
     localExpiry,
     messageThread,
     setMessageThread,
+    receipientID
   } = props;
   const [message, setMessage] = useState("");
   const [render, setRender] = useState();
@@ -27,7 +28,7 @@ const ChatBox = (props) => {
 
   const sendMessage = async () => {
     const newMessage = {
-      receiver_id: 1,
+      receiver_id: receipientID,
       receiver_class: "User",
       body: message,
     };
@@ -50,7 +51,7 @@ const ChatBox = (props) => {
   useEffect(() => {
     const receiveMessage = async () => {
       await axios
-        .get(`/api/v1/messages?receiver_id=1&receiver_class=User`, {
+        .get(`/api/v1/messages?receiver_id=${receipientID} &receiver_class=User`, {
           headers: {
             "access-token": localToken,
             client: localClient,

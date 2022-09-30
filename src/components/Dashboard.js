@@ -8,7 +8,8 @@ import { useState } from "react";
 export default function Dashboard() {
   const [messageThread, setMessageThread] = useState([])
   const [receipient, setReceipient] = useState("")
-  const [receipientID, setReceipientID] = useState()
+  const [receipientID, setReceipientID] = useState(1)
+ 
   const localHeaders = JSON.parse(localStorage.getItem("loggedUser"));
 
   const localClient = localHeaders.client;
@@ -24,13 +25,21 @@ export default function Dashboard() {
     navigate("/")
   }
 
-  const createChannel = () => {
-  }
+  
   
   return (
     <>
     <section className="flex flex-row w-screen h-screen">
-      <SideBar handleLogOut = {handleLogOut} createChannel={createChannel}/>
+      <SideBar 
+      handleLogOut = {handleLogOut} 
+      setReceipient ={setReceipient} 
+      setReceipientID = {setReceipientID}
+      localClient ={localClient} 
+      localToken = {localToken} 
+      localID = {localID} 
+      localUID = {localUID} 
+      localExpiry = {localExpiry}
+      />
       <ChatBox 
       localClient ={localClient} 
       localToken = {localToken} 
@@ -39,6 +48,7 @@ export default function Dashboard() {
       localExpiry = {localExpiry}
       messageThread = {messageThread}
       setMessageThread = {setMessageThread}
+      receipientID = {receipientID}
       />
       <Thread/>
     </section>
