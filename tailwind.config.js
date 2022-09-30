@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "light-purple": "#791984"
+        backdrop: "rgba(0,0,0,0.7)"
       }
     },
   },

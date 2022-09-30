@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-
+import CreateChannelModal from "./CreateChannelModal"
 import axios from "../../api/axios"
-
 
 const SideBar = (props) => {
   const { handleLogOut, 
@@ -19,11 +18,14 @@ const SideBar = (props) => {
   const [channelIDList, setChannelIDList] = useState([])
   const [modalDM, setModalDM] = useState(false)
 
-
+  const [ clickModal, setClickModal ] = useState(false);
+  const [ id, setId ] = useState(0);
+  const [ channelName, setChannelName ] = useState("");
+  const [ ids, setIds ] = useState([]);
+  
   useEffect(()=> {
       setSearchUser(searchUser)
-    },[searchUser])
-
+  },[searchUser])
 
   const getUserChannels = async () => {
     await axios
@@ -34,20 +36,19 @@ const SideBar = (props) => {
         uid: localUID
       }})
 
-      // .then(userChannel => {
-      //     if(userChannel.data !== undefined) {
-      //       let userChannelName = userChannel.data.map(data=>
-      //         data.name
-      //       )
-      //       setChannelList(userChannelName)
+  }
 
-      //       let userChannelID = userChannel.data.map(data =>
-      //         data.id)
+  const handleAddIds = (e) => {
+    e.preventDefault()
+    setIds([...ids, Number(id)])
+    setId(0)
+  }
 
-      //       setChannelIDList(userChannelID)
-      //     }
-      // })
-    }
+  const onCreateChannel = (e) => {
+    e.preventDefault()
+    console.log(channelName)
+    console.log("dasfaweasdas")
+  }
 
   const sendDMMessage = () => {}
    
@@ -120,40 +121,35 @@ const SideBar = (props) => {
       })
   }
 
- 
-
     return (
       <div className="_sidebar  w-1/5 bg-fuchsia-700 text-white">
         
         <div className="ml-2">
           <button onClick={handleLogOut}>LOGOUT</button>
         <div className="grid grid-cols-2 py-5">
-  
           <h1 className="">Server Name</h1>
           <div>
             <button className="" onClick={()=> setModalDM(true)}>
              send new message
             </button>
+            {modalDM ? modalDMWindow : null}
           </div>
         </div>
           <div className="grid grid-cols-2 py-5">
-         
-            Channels       
-            <button onClick={null}>
-             new Channel
-            </button>
-
-            {modalDM ? 
-           modalDMWindow
-          : null}
-          
-            <ul className="flex flex-col">
-              <span>Channel 1</span>
-              <span>Channel 2</span>
-            </ul>
+            Channels
+            <button onClick={() => setClickModal(true)}>+</button>
+            <CreateChannelModal
+              clickModal={clickModal}
+              setClickModal={setClickModal}
+              handleAddIds={handleAddIds}
+              setChannelName={setChannelName}
+              id={id}
+              ids={ids}
+              setId={setId}
+              onCreateChannel={onCreateChannel}
+            />
           </div>
           Direct Messages
-  
           <div>
             <ul className="flex flex-col">
               <span>person1</span>
