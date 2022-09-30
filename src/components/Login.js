@@ -59,6 +59,7 @@ export default function Login(props) {
               message: "please enter a valid email"
             },
           })}
+          name="email"
           type="text"
           id="email"
           placeholder="Email address"/>
@@ -73,6 +74,7 @@ export default function Login(props) {
           {...register("password", {
             required: "password is required",
           })}
+          name="password"
           type="password"
           id="password"
           placeholder="Password"/>
