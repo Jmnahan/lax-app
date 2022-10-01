@@ -12,7 +12,7 @@ const SideBar = (props) => {
     localExpiry,
   } = props
   const [searchUser, setSearchUser] = useState("")
-  const [allUsers, setAllUsers] = useState([])
+  
   const [loading, setLoading] = useState()
   const [channelList, setChannelList] = useState([])
   const [channelIDList, setChannelIDList] = useState([])
@@ -50,10 +50,16 @@ const SideBar = (props) => {
     console.log("dasfaweasdas")
   }
 
-  const sendDMMessage = () => {}
+  const sendDMMessage = (user) => {
+
+  }
    
+
+
+  
+
     const modalDMWindow = (
-      <>
+          <>
             <div
               className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             >
@@ -76,10 +82,16 @@ const SideBar = (props) => {
                   </div>
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
-                    <form onSubmit={sendDMMessage}>
+                    <form onSubmit={()=>sendDMMessage(searchUser)}>
                       <label className='text-black'>Send To...</label>
                       <input className ="border w-[80%] rounded-full" value={searchUser} onChange={(e)=> {setSearchUser(e.target.value)}}/>
                     </form>
+                      <div>
+                        {}
+                      </div>
+                    <ul>
+                      {/* {allUsers.map((item, index) => ())} */}
+                    </ul>
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -104,22 +116,9 @@ const SideBar = (props) => {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
     )
-   
 
-  const loadUsers = async () => {
-    await axios
-      .get(`/api/v1/users`, {headers: {
-        "access-token": localToken,
-        client: localClient,
-        expiry: localExpiry,
-        uid: localUID
-      }})
-      .then ((user) => {
-        const totalUserData = user.data.data.map(item=>item)
-        setAllUsers(totalUserData)
-        
-      })
-  }
+ 
+
 
     return (
       <div className="_sidebar  w-1/5 bg-fuchsia-700 text-white">

@@ -71,20 +71,16 @@ const ChatBox = (props) => {
     receiveMessage();
   }, [localClient, localExpiry, localToken, localUID, messageList]);
 
-  const toggleThread = () => {};
 
   return (
-    <div className="_main-text-area w-3/5 ">
+    <div className="_main-text-area w-4/5 ">
       <div className="_chat-header text-center py-5 border-b shadow-sm flex flex-row">
         <h2 className="grow"> Channel</h2>
-        <div className="px-3">
-          <button onClick={toggleThread}>toggle</button>
-        </div>
       </div>
         <Chatmessages
           messageList={messageList}
         />
-      <span className="fixed bottom-0 p-3 border-t border-black shadow-sm w-3/5">
+      <span className="fixed bottom-0 p-3 border-t border-black shadow-sm w-4/5">
         <form onSubmit={handleSubmit}>
           <input
             type="text"
