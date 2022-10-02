@@ -1,16 +1,17 @@
 export default function CreateChannelModal(props) {
   const { 
-    id, 
-    setId, 
-    ids,
+    emails,
+    userEmail,
+    setUserEmail, 
     clickModal, 
     setClickModal, 
     setChannelName, 
-    onCreateChannel, 
+    handleCreateChannel, 
+    channelNameError,
     handleAddIds } = props
 
   if(!clickModal) return null
-  const seperatedIds = ids.join(", ")
+  const emailList = emails.join(", ")
 
   return(
     <div className="bg-backdrop justify-center items-center flex fixed inset-0 z-10" 
@@ -18,8 +19,7 @@ export default function CreateChannelModal(props) {
       <div className="flex flex-col relative bg-white text-zinc-800 w-1/4 p-8 rounded-2xl h-2/5" 
         onClick={(e) => {e.stopPropagation()}}>
         <h1 className="self-start text-3xl font-bold">Create a channel</h1>
-        <form className="flex flex-col mt-8" onSubmit={onCreateChannel}>
-
+        <form className="flex flex-col mt-6" onSubmit={handleCreateChannel}>
           <label className="mb-2 font-medium" 
           htmlFor="name">Channel name</label>
           <input className="h-8 w-2/3 indent-1 border-b-2 outline-none border-fuchsia-700"
@@ -29,28 +29,27 @@ export default function CreateChannelModal(props) {
           placeholder="# e.g plan-budget"
           onChange={(event) => setChannelName(event.target.value)}/>
       
-          <button className="w-1/2 absolute bottom-8 self-center rounded-md p-2  font-medium bg-fuchsia-700 hover:bg-fuchsia-500 text-white" type="submit">Create new channel</button>
+          <button className="w-1/2 absolute bottom-8 self-center rounded-md p-2 font-medium bg-fuchsia-700 hover:bg-fuchsia-500 text-white" type="submit">Create new channel</button>
+          {channelNameError && <p className="text-red-400 text-sm absolute top-40">must not be empty</p>}
         </form>
-
+        
         <form className="mt-8" onSubmit={handleAddIds}>
-
           <label className=" mb-2 font-medium"
-          htmlFor="id_number">Enter member's user id's</label>
-          <div className="flex">
-            <input className="h-8 w-1/3 indent-1 border-b-2 outline-none border-fuchsia-700"
-            name="id_number"
-            type="number"
-            min={1}
-            id="id_number"
-            placeholder="# e.g 123"
-            value={id}
-            onChange={(event) => setId(event.target.value)}/>
+          htmlFor="email">Enter user's email</label>
+          <div className="flex relative">
+            <input className="h-8 w-2/3 indent-1 border-b-2 outline-none border-fuchsia-700"
+            name="email"
+            type="email"
+            id="email"
+            placeholder="# e.g meline@hotmail.com"
+            value={userEmail}
+            onChange={(event) => setUserEmail(event.target.value)}/>
 
             <button className="text-fuchsia-800 hover:text-fuchsia-400 text-2xl font-semibold px-1 ml-1">+</button>
           </div>
 
-          <p className="mt-1"> user Id(s):
-            <span className="text-fuchsia-600"> {seperatedIds}</span> 
+          <p className="mt-1"> users:
+            <span className="text-fuchsia-600"> {emailList}</span> 
           </p>
         </form>
        

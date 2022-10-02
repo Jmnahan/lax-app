@@ -71,25 +71,23 @@ const ChatBox = (props) => {
     receiveMessage();
   }, [localClient, localExpiry, localToken, localUID, messageList]);
 
-
   return (
-    <div className="_main-text-area w-4/5 ">
-      <div className="_chat-header text-center py-5 border-b shadow-sm flex flex-row">
-        <h2 className="grow"> Channel</h2>
+    <div className="w-3/5">
+      <div className="py-5 border-b shadow-sm flex flex-row justify-between">
+        <h2 className="ml-8">Channel Name</h2>
+        <button className="mr-8">Add Members</button>
       </div>
-        <Chatmessages
-          messageList={messageList}
-        />
-      <span className="fixed bottom-0 p-3 border-t border-black shadow-sm w-4/5">
-        <form onSubmit={handleSubmit}>
+      <Chatmessages
+        messageList={messageList}
+      />
+      <form className="fixed bottom-0 p-6 border-t border-black bg-white shadow-sm w-3/5" onSubmit={handleSubmit}>
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="border w-[80%] rounded-full"
+            className="border w-full rounded-md indent-1 p-1 bg-gray-200 outline-none"
           ></input>
         </form>
-      </span>
     </div>
   );
 };

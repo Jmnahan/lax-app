@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import CreateChannelModal from "./CreateChannelModal"
+import Channel from './Channel'
 import axios from "../../api/axios"
 
 const SideBar = (props) => {
@@ -10,6 +11,16 @@ const SideBar = (props) => {
     localToken,
     localUID,
     localExpiry,
+    userEmail,
+    channels,
+    allUsers,
+    loadUsers,
+    setUserEmail,
+    setChannelName,
+    setId,
+    channelNameError,
+    setChannelNameError,
+    handleCreateChannel,
   } = props
   const [searchUser, setSearchUser] = useState("")
   
@@ -19,9 +30,8 @@ const SideBar = (props) => {
   const [modalDM, setModalDM] = useState(false)
 
   const [ clickModal, setClickModal ] = useState(false);
-  const [ id, setId ] = useState(0);
-  const [ channelName, setChannelName ] = useState("");
-  const [ ids, setIds ] = useState([]);
+  const [ emails, setEmails ] = useState([]);
+  
   
   useEffect(()=> {
       setSearchUser(searchUser)
@@ -34,30 +44,46 @@ const SideBar = (props) => {
         client: localClient,
         expiry: localExpiry,
         uid: localUID
-      }})
+    }})
+  }
 
+  const onChannelClick = () => {
+    
   }
 
   const handleAddIds = (e) => {
     e.preventDefault()
-    setIds([...ids, Number(id)])
-    setId(0)
+    allUsers.forEach(users => {
+      if (users.email === userEmail) {
+        setId(users.id)
+        setUserEmail(users.email)
+        setEmails([...emails, userEmail])
+        setUserEmail("")
+      }
+    });
   }
 
-  const onCreateChannel = (e) => {
-    e.preventDefault()
-    console.log(channelName)
-    console.log("dasfaweasdas")
-  }
+  useEffect(() => {
+    if(localToken) {
+      loadUsers()
+    }
+  },[])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (channelNameError) {
+        setChannelNameError(false)
+      } else if (!clickModal) {
+        setEmails([])
+      }
+    }, 1000);
+    return () => clearTimeout(timer)
+  },[ channelNameError, setChannelNameError, clickModal])
 
   const sendDMMessage = (user) => {
 
   }
    
-
-
-  
-
     const modalDMWindow = (
           <>
             <div
@@ -117,12 +143,8 @@ const SideBar = (props) => {
           </>
     )
 
- 
-
-
     return (
       <div className="_sidebar  w-1/5 bg-fuchsia-700 text-white">
-        
         <div className="ml-2">
           <button onClick={handleLogOut}>LOGOUT</button>
         <div className="grid grid-cols-2 py-5">
@@ -142,11 +164,18 @@ const SideBar = (props) => {
               setClickModal={setClickModal}
               handleAddIds={handleAddIds}
               setChannelName={setChannelName}
-              id={id}
-              ids={ids}
-              setId={setId}
-              onCreateChannel={onCreateChannel}
+              emails={emails}
+              userEmail={userEmail}
+              setUserEmail={setUserEmail}
+              channelNameError={channelNameError}
+              handleCreateChannel={handleCreateChannel}
             />
+            <div className="flex flex-col">
+              <Channel
+              channels={channels}
+              onChannelClick={onChannelClick}
+              />
+            </div>
           </div>
           Direct Messages
           <div>
