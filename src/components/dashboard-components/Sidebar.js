@@ -10,6 +10,7 @@ const SideBar = (props) => {
     localClient,
     localToken,
     localUID,
+    
     localExpiry,
     userEmail,
     channels,
@@ -18,9 +19,12 @@ const SideBar = (props) => {
     setUserEmail,
     setChannelName,
     setId,
+    onChannelClick,
     channelNameError,
     setChannelNameError,
     handleCreateChannel,
+    chanCreateError,
+    setChanCreateError,
   } = props
   const [searchUser, setSearchUser] = useState("")
   
@@ -45,10 +49,6 @@ const SideBar = (props) => {
         expiry: localExpiry,
         uid: localUID
     }})
-  }
-
-  const onChannelClick = () => {
-    
   }
 
   const handleAddIds = (e) => {
@@ -79,6 +79,15 @@ const SideBar = (props) => {
     }, 1000);
     return () => clearTimeout(timer)
   },[ channelNameError, setChannelNameError, clickModal])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if(chanCreateError) {
+        setChanCreateError("");
+      } 
+    }, 2000);
+    return () => clearTimeout(timer)
+  },[chanCreateError, setChanCreateError]);
 
   const sendDMMessage = (user) => {
 
@@ -169,6 +178,7 @@ const SideBar = (props) => {
               setUserEmail={setUserEmail}
               channelNameError={channelNameError}
               handleCreateChannel={handleCreateChannel}
+              chanCreateError={chanCreateError}
             />
             <div className="flex flex-col">
               <Channel

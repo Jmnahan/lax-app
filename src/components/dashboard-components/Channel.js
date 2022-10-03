@@ -3,9 +3,9 @@ export default function Channel(props) {
   const { channels, onChannelClick } = props
   return(
     <>
-      {channels.map((channel) => (
-        <button className="bg-fuchsia-900 mb-1 mt-1 text-center p-0.5 rounded" key={channel.name} onClick={onChannelClick}>
-          <span className="text-xs mt-4">{channel.name}</span>
+      {channels?.map((channel) => (
+        <button className="hover:bg-fuchsia-800 m-0.5 text-left w-fit p-0.5 rounded px-1" key={channel.name} onClick={onChannelClick}>
+        # <span className="text-sm">{channel.name}</span>
         </button>
     ))}
   </>

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import axios from "../api/axios";
 
 export default function Register(props) {
-  const { onToggle, setIsSignedUp, isSubmmited, setIsSubmmited } = props
+  const { onToggle, setIsSignedUp, isSubmitted, setIsSubmitted } = props
   const { 
     watch,
     register, 
@@ -21,7 +21,7 @@ export default function Register(props) {
     try {
       const response = await axios.post("api/v1/auth/", data);
       console.log("response data",response.data)
-      setIsSubmmited(true)
+      setIsSubmitted(true)
     } catch (error) {
         const errors = error.response.data.errors
         Object.keys(errors).forEach((field) => {
@@ -35,10 +35,10 @@ export default function Register(props) {
   }
 
   useEffect(()=> {
-    if (Object.keys(errors).length === 0 && isSubmmited) {
+    if (Object.keys(errors).length === 0 && isSubmitted) {
       setIsSignedUp("login")
     }
-  }, [errors, setIsSignedUp, isSubmmited]);
+  }, [errors, setIsSignedUp, isSubmitted]);
 
   return (
     <>

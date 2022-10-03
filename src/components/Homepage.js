@@ -6,24 +6,24 @@ import "../index.css";
 
 export default function Homepage() {
   const [isSignedUp, setIsSignedUp] = useState("register");
-  const [isSubmmited, setIsSubmmited] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const onToggle = () => {
     setIsSignedUp(isSignedUp === "register" ? "login" : "register")
   }
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if(isSubmmited) {
-        setIsSubmmited(false);
+      if(isSubmitted) {
+        setIsSubmitted(false);
       } 
     }, 5000);
     return () => clearTimeout(timer)
-  },[isSubmmited]);
+  },[isSubmitted]);
   
   return (
     <>
     <section className="bg-fuchsia-900 h-screen flex items-center justify-center">
-      {isSubmmited === true && (
+      {isSubmitted === true && (
         <p className="success absolute top-10 -right-1/4 bg-green-400 text-gray-900 font-medium rounded py-3 px-12">
           Registration success!</p>
       )}
@@ -41,8 +41,8 @@ export default function Homepage() {
         {isSignedUp === "register" && (
           <Register 
           setIsSignedUp={setIsSignedUp}
-          isSubmmited={isSubmmited}
-          setIsSubmmited={setIsSubmmited}
+          isSubmitted={isSubmitted}
+          setIsSubmitted={setIsSubmitted}
           onToggle={onToggle}
           />
         )}

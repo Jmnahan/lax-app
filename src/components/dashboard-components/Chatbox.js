@@ -3,7 +3,7 @@ import axios from "../../api/axios";
 import Chatmessages from "./Chatmessages";
 const ChatBox = (props) => {
   const {
-    localClient,
+    localClient, 
     localToken,
     localUID,
     localExpiry,
@@ -29,7 +29,7 @@ const ChatBox = (props) => {
   const sendMessage = async () => {
     const newMessage = {
       receiver_id: receipientID,
-      receiver_class: "User",
+      receiver_class: "channel",
       body: message,
     };
 
@@ -72,7 +72,7 @@ const ChatBox = (props) => {
   }, [localClient, localExpiry, localToken, localUID, messageList]);
 
   return (
-    <div className="w-3/5">
+    <div className="w-2/5">
       <div className="py-5 border-b shadow-sm flex flex-row justify-between">
         <h2 className="ml-8">Channel Name</h2>
         <button className="mr-8">Add Members</button>

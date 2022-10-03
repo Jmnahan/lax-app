@@ -1,3 +1,4 @@
+
 export default function CreateChannelModal(props) {
   const { 
     emails,
@@ -8,6 +9,7 @@ export default function CreateChannelModal(props) {
     setChannelName, 
     handleCreateChannel, 
     channelNameError,
+    chanCreateError,
     handleAddIds } = props
 
   if(!clickModal) return null
@@ -22,7 +24,7 @@ export default function CreateChannelModal(props) {
         <form className="flex flex-col mt-6" onSubmit={handleCreateChannel}>
           <label className="mb-2 font-medium" 
           htmlFor="name">Channel name</label>
-          <input className="h-8 w-2/3 indent-1 border-b-2 outline-none border-fuchsia-700"
+          <input className="h-8 w-2/4 indent-1 border-b-2 outline-none border-fuchsia-700"
           name="name"
           type="text"
           id="name"
@@ -30,14 +32,15 @@ export default function CreateChannelModal(props) {
           onChange={(event) => setChannelName(event.target.value)}/>
       
           <button className="w-1/2 absolute bottom-8 self-center rounded-md p-2 font-medium bg-fuchsia-700 hover:bg-fuchsia-500 text-white" type="submit">Create new channel</button>
-          {channelNameError && <p className="text-red-400 text-sm absolute top-40">must not be empty</p>}
+          {channelNameError && <p className="text-red-400 text-sm absolute top-40">Must not be empty</p>}
+          <p className="text-red-400 text-sm absolute top-40">{chanCreateError}</p>
         </form>
         
         <form className="mt-8" onSubmit={handleAddIds}>
           <label className=" mb-2 font-medium"
           htmlFor="email">Enter user's email</label>
           <div className="flex relative">
-            <input className="h-8 w-2/3 indent-1 border-b-2 outline-none border-fuchsia-700"
+            <input className="h-8 w-2/4 indent-1 border-b-2 outline-none border-fuchsia-700"
             name="email"
             type="email"
             id="email"
