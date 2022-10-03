@@ -143,7 +143,7 @@ const DmList = (props) => {
 
   return <ul>
     {
-      messageThread.map(data => console.log(data))
+      // messageThread.map(data => console.log(data))
     }
   </ul>
   
