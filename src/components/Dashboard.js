@@ -237,7 +237,6 @@ export default function Dashboard() {
           setId={setId}
           chanCreateError={chanCreateError}
           setChanCreateError={setChanCreateError}
-          allUsers={allUsers}
           channels={channels}
           channelName={channelName}
           onChannelClick={onChannelClick}
@@ -245,6 +244,10 @@ export default function Dashboard() {
           handleCreateChannel={handleCreateChannel}
           channelNameError={channelNameError}
           setChannelNameError={setChannelNameError}
+          allUsers = {allUsers}
+          setAllUsers = {setAllUsers}
+          messageThread = {messageThread}
+          setMessageThread = {setMessageThread}
         />
         <ChatBox
           localClient={localClient}
@@ -255,6 +258,7 @@ export default function Dashboard() {
           messageThread={messageThread}
           setMessageThread={setMessageThread}
           receipientID={receipientID}
+          receipient={receipient}
         />
         <ActiveChannel
         localClient={localClient}

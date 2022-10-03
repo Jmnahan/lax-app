@@ -10,8 +10,11 @@ const SideBar = (props) => {
     localClient,
     localToken,
     localUID,
-    
     localExpiry,
+    messageThread,
+    setMessageThead,
+    receipient,
+
     userEmail,
     channels,
     allUsers,
@@ -26,21 +29,20 @@ const SideBar = (props) => {
     chanCreateError,
     setChanCreateError,
   } = props
-  const [searchUser, setSearchUser] = useState("")
+
   
+
   const [loading, setLoading] = useState()
   const [channelList, setChannelList] = useState([])
   const [channelIDList, setChannelIDList] = useState([])
   const [modalDM, setModalDM] = useState(false)
+  const [searchUser, setSearchUser] = useState("")
 
   const [ clickModal, setClickModal ] = useState(false);
   const [ emails, setEmails ] = useState([]);
   
   
-  useEffect(()=> {
-      setSearchUser(searchUser)
-  },[searchUser])
-
+let value =''
   const getUserChannels = async () => {
     await axios
       .get(`/api/v1/channels`,{headers:{
@@ -50,6 +52,8 @@ const SideBar = (props) => {
         uid: localUID
     }})
   }
+
+
 
   const handleAddIds = (e) => {
     e.preventDefault()
@@ -88,11 +92,21 @@ const SideBar = (props) => {
     }, 2000);
     return () => clearTimeout(timer)
   },[chanCreateError, setChanCreateError]);
-
-  const sendDMMessage = (user) => {
-
-  }
    
+  useEffect(
+    ()=> {loadUsers()},[]
+  )
+
+  useEffect(()=> {
+    setSearchUser(searchUser)
+  },[searchUser])
+
+  const onSearch = (searchUser, searchID) =>{
+    setSearchUser(searchUser)
+    setReceipientID(searchID)
+    setReceipient(searchUser)
+  }
+
     const modalDMWindow = (
           <>
             <div
@@ -106,27 +120,36 @@ const SideBar = (props) => {
                     <h3 className="text-3xl font-semibold text-black">
                       Send New Message
                     </h3>
-                    <button
-                      className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                      onClick={() => setModalDM(false)}
-                    >
-                      <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                        ×
-                      </span>
-                    </button>
+                    
                   </div>
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
-                    <form onSubmit={()=>sendDMMessage(searchUser)}>
+                   
                       <label className='text-black'>Send To...</label>
-                      <input className ="border w-[80%] rounded-full" value={searchUser} onChange={(e)=> {setSearchUser(e.target.value)}}/>
-                    </form>
-                      <div>
-                        {}
-                      </div>
-                    <ul>
-                      {/* {allUsers.map((item, index) => ())} */}
-                    </ul>
+
+                      <input type="text" className ="border w-[80%] rounded-full text-black" value={searchUser} onChange={(e) => setSearchUser(e.target.value)}/>
+
+                      <ul className='dropdown text-black dropdown-menu min-w-max absolute bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none'>
+                        
+                        {allUsers
+                          .filter(item => {
+                            const searchTerm = searchUser.toLowerCase();
+                            const userid = item.uid.toLowerCase();
+                             
+                           return searchTerm && userid.startsWith(searchTerm) && userid !== searchTerm                           
+                          })
+                          .slice(0,5)
+                          .map((item) => (
+                          <div onClick = {()=>onSearch(item.uid, item.id)} className ="dropdown-item text-black text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" key={item.id}>
+                            {item.uid}
+                          </div>))}
+
+                      </ul>
+                      
+                      <textarea className='border text-black' value={value}></textarea>
+                    <div>
+                      
+                    </div>
                   </div>
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -151,6 +174,19 @@ const SideBar = (props) => {
             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
           </>
     )
+
+ 
+const DmList = (props) => {
+  const {messageThread, setMessageThread, receipient} = props
+
+  return <ul>
+    {
+      // messageThread.map(data => console.log(data))
+    }
+  </ul>
+  
+
+}
 
     return (
       <div className="_sidebar  w-1/5 bg-fuchsia-700 text-white">
@@ -190,10 +226,7 @@ const SideBar = (props) => {
           Direct Messages
           <div>
             <ul className="flex flex-col">
-              <span>person1</span>
-              <span>person2</span>
-              <span>person3</span>
-              <span>person4</span>
+             {messageThread ? <DmList messageThread={messageThread} setMessageThead={setMessageThead} receipient ={receipient}/> : <div>no messages</div>}
             </ul>
           </div>
         </div> 

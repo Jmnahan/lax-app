@@ -44,7 +44,6 @@ const ChatBox = (props) => {
       })
       .then((response) => {
         console.log(response.data);
-        setCounter((counter) => counter + 1);
       });
   };
 
