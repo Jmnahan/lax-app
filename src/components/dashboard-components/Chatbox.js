@@ -44,7 +44,6 @@ const ChatBox = (props) => {
       })
       .then((response) => {
         console.log(response.data);
-        setCounter((counter) => counter + 1);
       });
   };
 
@@ -73,20 +72,20 @@ const ChatBox = (props) => {
 
 
   return (
-    <div className="_main-text-area w-4/5 ">
+    <div className="_main-text-area w-4/5 bg-white">
       <div className="_chat-header text-center py-5 border-b shadow-sm flex flex-row">
         <h2 className="grow"> Channel</h2>
-      </div>
+      </div >
         <Chatmessages
           messageList={messageList}
         />
-      <span className="fixed bottom-0 p-3 border-t border-black shadow-sm w-4/5">
+      <span className="fixed bottom-0 p-3 border-t bg-white border-black shadow-sm w-4/5">
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="border w-[80%] rounded-full"
+            className="border w-[80%] rounded-full "
           ></input>
         </form>
       </span>

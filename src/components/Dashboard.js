@@ -25,7 +25,8 @@ export default function Dashboard() {
     navigate("/")
   }
 
-  useEffect (()=>{
+ 
+
     const loadUsers = async () => {
       await axios
         .get(`/api/v1/users`, {headers: {
@@ -39,8 +40,9 @@ export default function Dashboard() {
           setAllUsers(totalUserData)
         })
     }
-    loadUsers()
-  },[])
+
+  
+
 
   return (
     <>
@@ -54,6 +56,11 @@ export default function Dashboard() {
           localID={localID}
           localUID={localUID}
           localExpiry={localExpiry}
+          allUsers = {allUsers}
+          setAllUsers = {setAllUsers}
+          loadUsers = {loadUsers}
+          messageThread = {messageThread}
+          setMessageThread = {setMessageThread}
         />
         <ChatBox
           localClient={localClient}
@@ -64,6 +71,7 @@ export default function Dashboard() {
           messageThread={messageThread}
           setMessageThread={setMessageThread}
           receipientID={receipientID}
+          receipient={receipient}
         />
       </section>
     </>

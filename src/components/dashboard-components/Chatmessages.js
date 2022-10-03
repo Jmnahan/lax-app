@@ -1,7 +1,7 @@
 const Chatmessages = (props) => {
   const { messageList } = props
   return (
-    <div>
+    <div className="overflow-auto">
       {messageList.map((data) => (
           <div className="ml-2 " 
           key={data.id}>
