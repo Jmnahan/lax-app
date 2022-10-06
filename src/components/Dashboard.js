@@ -9,7 +9,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [messageThread, setMessageThread] = useState([])
   const [receipient, setReceipient] = useState("")
-  const [receipientID, setReceipientID] = useState(1)
+  const [receipientID, setReceipientID] = useState("")
 
   const [allUsers, setAllUsers] = useState([])
 
@@ -261,6 +261,7 @@ export default function Dashboard() {
           localUID={localUID}
           localExpiry={localExpiry}
           messageThread={messageThread}
+          render = {render}
           setMessageThread={setMessageThread}
           receipientID={receipientID}
           receipient={receipient}
