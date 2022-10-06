@@ -82,6 +82,7 @@ export default function Dashboard() {
         setRender(true)
       }
     })
+    setSelectedPage("channel")
   }
 
   const loadChannelDetails = async () => {
@@ -218,6 +219,8 @@ export default function Dashboard() {
     }
   },[addMemId, activeChannel.id, allUsers, userEmail])
 
+  const [ selectedPage, setSelectedPage ] = useState("channel");
+
   return (
     <>
       <section className="flex flex-row w-screen h-screen">
@@ -248,8 +251,10 @@ export default function Dashboard() {
           setAllUsers = {setAllUsers}
           messageThread = {messageThread}
           setMessageThread = {setMessageThread}
+          setSelectedPage={setSelectedPage}
         />
-        <ChatBox
+        { selectedPage === "direct" && 
+          <ChatBox
           localClient={localClient}
           localToken={localToken}
           localID={localID}
@@ -260,25 +265,28 @@ export default function Dashboard() {
           receipientID={receipientID}
           receipient={receipient}
         />
-        <ActiveChannel
-        localClient={localClient}
-        localToken={localToken}
-        localID={localID}
-        localUID={localUID}
-        localExpiry={localExpiry}
-        messageThread={messageThread}
-        setMessageThread={setMessageThread}
-        receipientID={receipientID}
+        }
+        { selectedPage === "channel" && 
+          <ActiveChannel
+          localClient={localClient}
+          localToken={localToken}
+          localID={localID}
+          localUID={localUID}
+          localExpiry={localExpiry}
+          messageThread={messageThread}
+          setMessageThread={setMessageThread}
+          receipientID={receipientID}
 
-        addingError={addingError}
-        setAddingError={setAddingError}
-        userEmail={userEmail}
-        handleAddMember={handleAddMember}
-        render={render}
-        setUserEmail={setUserEmail}
-        activeChannel={activeChannel}
-        channelData={channelData}
-        />
+          addingError={addingError}
+          setAddingError={setAddingError}
+          userEmail={userEmail}
+          handleAddMember={handleAddMember}
+          render={render}
+          setUserEmail={setUserEmail}
+          activeChannel={activeChannel}
+          channelData={channelData}
+          />
+        }
       </section>
     </>
   );

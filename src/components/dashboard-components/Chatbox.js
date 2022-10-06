@@ -42,9 +42,9 @@ const ChatBox = (props) => {
           uid: localUID,
         },
       })
-      .then((response) => {
-        console.log(response.data);
-      });
+      // .then((response) => {
+      //   console.log(response.data);
+      // });
   };
 
   useEffect(() => {
@@ -68,18 +68,19 @@ const ChatBox = (props) => {
         });
     };
     receiveMessage();
-  }, [localClient, localExpiry, localToken, localUID, messageList]);
+  }, [localClient, localExpiry, localToken, localUID, messageList, receipientID]);
 
   return (
-    <div className="w-2/5">
-      <div className="py-5 border-b shadow-sm flex flex-row justify-between">
-        <h2 className="ml-8">Channel Name</h2>
-        <button className="mr-8">Add Members</button>
+    <div className="w-4/5 h-full">
+      <div className="mt-1 py-5 border-b border-gray-700 flex flex-row items-center justify-between">
+        <h2 className="ml-8">User (Direct Message)</h2>
       </div>
-      <Chatmessages
-        messageList={messageList}
-      />
-      <form className="fixed bottom-0 p-6 border-t border-black bg-white shadow-sm w-3/5" onSubmit={handleSubmit}>
+      <div className="overflow-auto h-84 mr-1" id="custom-style">
+          <Chatmessages
+          messageList={messageList}
+          />
+        </div>
+      <form className="fixed mb-0.5 bottom-0 p-6 border-t border-gray-700 bg-white w-4/5" onSubmit={handleSubmit}>
           <input
             type="text"
             value={message}
