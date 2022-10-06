@@ -1,7 +1,10 @@
 const Chatmessages = (props) => {
   const { messageList } = props
+
+
   return (
-    <div className="overflow-y-auto	h-85">
+    <>
+    {messageList ? <div className="overflow-y-auto	h-85">
       {messageList.map((data) => (
           <div className="ml-2 mb-5" 
           key={data.id}>
@@ -9,7 +12,8 @@ const Chatmessages = (props) => {
             <p className=" rounded-lg w-fit p-3 bg-purple-200">{data.body}</p>
           </div>
       ))}
-    </div>
+    </div> : <div> no messaages </div>}
+    </>
   );
 };
 

@@ -62,7 +62,7 @@ export default function ActiveChannel(props) {
   useEffect(() => {
     const receiveMessage = async () => {
       await axios
-        .get(`/api/v1/messages?receiver_id=${receipientID} &receiver_class=User`, {
+        .get(`/api/v1/messages?receiver_id=${receipientID} &receiver_class=Channel`, {
           headers: {
             "access-token": localToken,
             client: localClient,
@@ -128,7 +128,7 @@ export default function ActiveChannel(props) {
       </div>
       </>
   } else if (!render){
-    return <div className="flex flex-col items-center self-center w-full">
+    return <div className="flex flex-col items-center self-center w-2/5">
       <h1>Welcome to Lax-App</h1>
       <span>Interact the sidebar to render components</span>
     </div>

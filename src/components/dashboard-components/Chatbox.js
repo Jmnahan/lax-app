@@ -7,15 +7,14 @@ const ChatBox = (props) => {
     localToken,
     localUID,
     localExpiry,
-    messageThread,
-    setMessageThread,
-    receipientID
-  } = props;
-  const [message, setMessage] = useState("");
-  const [render, setRender] = useState();
-  const [counter, setCounter] = useState(0);
-  const [messageList, setMessageList] = useState([]);
+    receipientID,
+    render,
 
+  } = props;
+
+  const [messageList, setMessageList] = useState([]);
+  const [message, setMessage] = useState("");
+  
   useEffect(() => {
     setMessage(message);
   }, [message]);
@@ -61,6 +60,7 @@ const ChatBox = (props) => {
         .then((response) => {
           if (response.data.length !== 0) {
             let messageData = response.data.data;
+            console.log(messageData)
             setMessageList(messageData)
           } else {
             console.log("no message");
@@ -79,7 +79,7 @@ const ChatBox = (props) => {
       <Chatmessages
         messageList={messageList}
       />
-      <form className="fixed bottom-0 p-6 border-t border-black bg-white shadow-sm w-3/5" onSubmit={handleSubmit}>
+      <form className="fixed bottom-0 p-6 border-t border-black bg-white shadow-sm w-2/5" onSubmit={handleSubmit}>
           <input
             type="text"
             value={message}
