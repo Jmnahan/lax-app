@@ -5,7 +5,7 @@ import axios from "../../api/axios"
 import DmList from "./DmList";
 import DMModal from "./DMModal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faPenToSquare, faRightFromBracket, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faPenToSquare, faRightFromBracket, faPlus, faL } from '@fortawesome/free-solid-svg-icons'
 
 const SideBar = (props) => {
   const {
@@ -16,7 +16,6 @@ const SideBar = (props) => {
     localUID,
     localExpiry,
     receipientID,
-
     userEmail,
     channels,
     allUsers,
@@ -30,17 +29,20 @@ const SideBar = (props) => {
     handleCreateChannel,
     chanCreateError,
     setChanCreateError,
-    setSelectedPage
+    setSelectedPage,
+    userList,
+    setUserList,
+    setReceipient
   } = props
-
 
   const [modalDM, setModalDM] = useState(false);
   const [searchUser, setSearchUser] = useState("");
   const [message, setMessage] = useState("");
-  const [userList, setUserList] = useState([]);
+  
+  const [switchID, setSwitchID] = useState()
+  const [newReceiver, setNewReceiver] = useState('')
   const [messageObject, setMessageObject] = useState({ id: "", user: "" });
   const [submitMessage, setSubmitMessage] = useState(false);
-  const [userDataList, setUserDataList] = useState([])
   const [clickModal, setClickModal] = useState(false);
   const [emails, setEmails] = useState([]);
   const localMessages = JSON.parse(localStorage.getItem('messages') || "[]")
@@ -55,13 +57,11 @@ const SideBar = (props) => {
       }
     });
   };
-
   useEffect(() => {
     if (localToken) {
       loadUsers();
     }
   }, []);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       if (channelNameError) {
@@ -99,16 +99,15 @@ const SideBar = (props) => {
       }
       setSubmitMessage(false);
     }
-    console.log(userDataList)
-    console.log(userList)
+
   }, [submitMessage, messageObject, userList]);
-  
-  const localUser = {id:localUID, array: userList}
-  const localMessage = localStorage.setItem("messages",JSON.stringify(localUser))
+
+  // const localUser = {id:localUID, array: userList}
+  // const localMessage = localStorage.setItem("messages",JSON.stringify(localUser))
 
   const sendMessage = async () => {
     const newMessage = {
-      receiver_id: receipientID,
+      receiver_id: newReceiver,
       receiver_class: "User",
       body: message,
     };
@@ -130,21 +129,27 @@ const SideBar = (props) => {
         setModalDM(false);
       });
   };
+
+
+
   const onSearch = (searchUser) => {
-    setSearchUser(searchUser);
+    setSearchUser(searchUser?.email)
+    setNewReceiver(searchUser?.id)
   };
+ 
 
   return (
       <div className="w-1/5 bg-fuchsia-700 text-white border-r border-gray-400 flex-wrap">
         <div className="bg-fuchsia-900 w-full py-5 border-b border-gray-400">
           <div className="flex border-b border-gray-400">
             <h1 className="text-3xl  w-full pl-4 pb-2 pt-1 font-bold text-cyan-300">Group 2</h1>
-            <button className="mr-8 px-2 mt-2 mb-2 rounded-full bg-fuchsia-600" onClick={()=> setModalDM(true)}>
+            <button className="mr-8 px-2 mt-2 mb-2 rounded-full bg-fuchsia-600" onClick={()=> {setModalDM(true)}}>
               <span className="text-gray-400">
                 <FontAwesomeIcon icon={faPenToSquare}/>
               </span>
             </button>
             {modalDM ? <DMModal 
+            setNewReceiver = {setNewReceiver}
             searchUser = {searchUser}
             allUsers = {allUsers}
             setMessage = {setMessage}
@@ -153,8 +158,9 @@ const SideBar = (props) => {
             message = {message}
             setModalDM = {setModalDM}
             setMessageObject = {setMessageObject}
-            onSearch = {onSearch }
+            onSearch = {onSearch}
             setSearchUser = {setSearchUser}
+            messageObject = {messageObject}
             /> : null}
           </div>
           <h3 className="text-lg ml-4 mt-3 font-medium text-cyan-400">
@@ -199,10 +205,6 @@ const SideBar = (props) => {
           </div>
           </div>
           <h3 className="pl-4 text-lg font-medium text-cyan-300">Direct Messages</h3>
-          <button className="pl-4" 
-            onClick={() => setSelectedPage("direct")}>
-            CLICK ME
-          </button>
           <div>
             <ul className="flex flex-col">
               <DmList
@@ -214,6 +216,9 @@ const SideBar = (props) => {
                 localUID={localUID}
                 userList={userList}
                 setUserList={setUserList}
+                setSelectedPage = {setSelectedPage}
+                setReceipient = {setReceipient}
+                setReceipientID = {setReceipientID}
               />
             </ul>
           </div>

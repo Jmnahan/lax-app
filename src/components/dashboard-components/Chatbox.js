@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "../../api/axios";
 import Chatmessages from "./Chatmessages";
 const ChatBox = (props) => {
@@ -8,13 +8,11 @@ const ChatBox = (props) => {
     localUID,
     localExpiry,
     receipientID,
-    render,
-
+    receipient,
   } = props;
-
+  const messageRef = useRef()
   const [messageList, setMessageList] = useState([]);
   const [message, setMessage] = useState("");
-  
   useEffect(() => {
     setMessage(message);
   }, [message]);
@@ -28,7 +26,7 @@ const ChatBox = (props) => {
   const sendMessage = async () => {
     const newMessage = {
       receiver_id: receipientID,
-      receiver_class: "channel",
+      receiver_class: "User",
       body: message,
     };
 
@@ -41,39 +39,53 @@ const ChatBox = (props) => {
           uid: localUID,
         },
       })
-      // .then((response) => {
-      //   console.log(response.data);
-      // });
+      .then((response) => {
+        console.log(response.data);
+      });
   };
 
   useEffect(() => {
-    const receiveMessage = async () => {
-      await axios
-        .get(`/api/v1/messages?receiver_id=${receipientID} &receiver_class=User`, {
-          headers: {
-            "access-token": localToken,
-            client: localClient,
-            exipry: localExpiry,
-            uid: localUID,
-          },
-        })
-        .then((response) => {
-          if (response.data.length !== 0) {
-            let messageData = response.data.data;
-            console.log(messageData)
-            setMessageList(messageData)
-          } else {
-            console.log("no message");
-          }
-        });
-    };
-    receiveMessage();
+    const interval = setInterval(()=> {
+      const receiveMessage = async () => {
+        await axios
+          .get(`/api/v1/messages?receiver_id=${receipientID} &receiver_class=User`, {
+            headers: {
+              "access-token": localToken,
+              client: localClient,
+              exipry: localExpiry,
+              uid: localUID,
+            },
+          })
+          .then((response) => {
+            if (response.data.data.length !== 0) {
+              let messageData = response.data.data;
+              setMessageList(messageData)
+            } else {
+              console.log("no message");
+            }
+          });
+      };
+      receiveMessage();
+    },600)
+    return() => clearInterval(interval)
   }, [localClient, localExpiry, localToken, localUID, messageList, receipientID]);
+
+  useEffect(()=> {
+    if(messageRef.current) {
+      messageRef.current.scrollIntoView(
+        {
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest'
+        }
+      )
+    }
+  })
 
   return (
     <div className="w-4/5 h-full">
       <div className="mt-1 py-5 border-b border-gray-700 flex flex-row items-center justify-between">
-        <h2 className="ml-8">User (Direct Message)</h2>
+        <h2 className="ml-8">{receipient}</h2>
       </div>
       <div className="overflow-auto h-84 mr-1" id="custom-style">
           <Chatmessages

@@ -35,7 +35,7 @@ export default function Dashboard() {
   const [ addingError, setAddingError ] = useState("");
   const [ chanCreateError, setChanCreateError ] = useState("");
   const [ isSubmitted, setIsSubmitted] = useState(false);
-
+  const [userList, setUserList] = useState([]);
   const [ channel, setChannel ] = useState({
     name: "",
     user_ids: []
@@ -44,7 +44,6 @@ export default function Dashboard() {
     id: 0,
     member_id: 0
   })
-
   const addId = () => {
     setUser_ids([...user_ids, id])
   }
@@ -252,6 +251,8 @@ export default function Dashboard() {
           messageThread = {messageThread}
           setMessageThread = {setMessageThread}
           setSelectedPage={setSelectedPage}
+          userList ={userList}
+          setUserList = {setUserList}
         />
         { selectedPage === "direct" && 
           <ChatBox
@@ -265,6 +266,8 @@ export default function Dashboard() {
           setMessageThread={setMessageThread}
           receipientID={receipientID}
           receipient={receipient}
+          setReceipient={setReceipient}
+          userList = {userList}
         />
         }
         { selectedPage === "channel" && 

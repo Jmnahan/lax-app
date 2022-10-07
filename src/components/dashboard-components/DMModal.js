@@ -1,7 +1,7 @@
-const DMModal = (props) => {
 
-    const {searchUser, allUsers,setMessage, sendMessage, setSubmitMessage, message, setModalDM, setMessageObject, onSearch, setSearchUser} = props
-    
+const DMModal = (props) => {
+    const {searchUser, allUsers,setMessage, sendMessage, setSubmitMessage, message, setModalDM, setMessageObject, onSearch, setSearchUser, setNewReceiver} = props
+
     return (
       <>
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -29,26 +29,25 @@ const DMModal = (props) => {
                   {allUsers
                     .filter((item) => {
                       const searchTerm = searchUser.toLowerCase();
-                      const userid = item.uid.toLowerCase();
-
+                      const userEmail = item.uid.toLowerCase();
                       return (
                         searchTerm &&
-                        userid.startsWith(searchTerm) &&
-                        userid !== searchTerm
+                        userEmail.startsWith(searchTerm) &&
+                        userEmail !== searchTerm
                       );
                     })
                     .slice(0, 5)
                     .map((item) => (
-                      <div
-                        onClick={() => {
-                          onSearch(item.uid);
-                          setMessageObject({ id: item.id, user: item.uid });
-                        }}
-                        className="dropdown-item text-black text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100"
-                        key={item.id}
-                      >
+                      setNewReceiver(item.id),
+                      <button
+                      onClick={() => {
+                        onSearch(item);
+                        setMessageObject({ id: item.id, user: item.email });
+                      }}
+                      className="dropdown-item text-black text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100"
+                      key={item.id}>
                         {item.uid}
-                      </div>
+                      </button>
                     ))}
                 </ul>
                 <div>
