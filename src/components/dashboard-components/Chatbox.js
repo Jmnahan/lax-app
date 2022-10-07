@@ -13,16 +13,16 @@ const ChatBox = (props) => {
   const messageRef = useRef()
   const [messageList, setMessageList] = useState([]);
   const [message, setMessage] = useState("");
+  const [noMessage, setNoMessages] = useState(false)
   useEffect(() => {
     setMessage(message);
   }, [message]);
-
+  console.log(messageList)
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessage();
     setMessage("");
   };
-
   const sendMessage = async () => {
     const newMessage = {
       receiver_id: receipientID,
@@ -61,7 +61,8 @@ const ChatBox = (props) => {
               let messageData = response.data.data;
               setMessageList(messageData)
             } else {
-              console.log("no message");
+              setNoMessages(true)
+              setMessageList([])
             }
           });
       };
@@ -88,9 +89,9 @@ const ChatBox = (props) => {
         <h2 className="ml-8 text-fuchsia-900 font-bold text-2xl">{receipient}</h2>
       </div>
       <div className="overflow-auto h-84 mr-1" id="custom-style">
-          <Chatmessages
+          {messageList.length !==0 ?<Chatmessages
           messageList={messageList}
-          />
+          /> : noMessage ? <div>send a message...</div> : <div>Loading...</div>}
         </div>
       <form className="fixed mb-0.5 bottom-0 p-6 border-t border-gray-700 bg-white w-4/5" onSubmit={handleSubmit}>
           <input

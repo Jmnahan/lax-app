@@ -2,6 +2,32 @@
 const DMModal = (props) => {
     const {searchUser, allUsers,setMessage, sendMessage, setSubmitMessage, message, setModalDM, setMessageObject, onSearch, setSearchUser, setNewReceiver} = props
 
+    const searchForUsers = (listOfUsers) => {
+      return listOfUsers
+      .filter((item) => {
+        const searchTerm = searchUser.toLowerCase();
+        const userEmail = item.uid.toLowerCase();
+        return (
+          searchTerm &&
+          userEmail.startsWith(searchTerm) &&
+          userEmail !== searchTerm
+        );
+      })
+      .slice(0, 5)
+      .map((item) => (
+        setNewReceiver(item.id),
+        <button
+        onClick={() => {
+          onSearch(item);
+          setMessageObject({ id: item.id, user: item.email });
+        }}
+        className="dropdown-item text-black text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100"
+        key={item.id}>
+          {item.uid}
+        </button>
+      ))
+    }
+
     return (
       <>
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -27,29 +53,7 @@ const DMModal = (props) => {
                 />
 
                 <ul className="dropdown text-black dropdown-menu min-w-max absolute bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none">
-                  {allUsers
-                    .filter((item) => {
-                      const searchTerm = searchUser.toLowerCase();
-                      const userEmail = item.uid.toLowerCase();
-                      return (
-                        searchTerm &&
-                        userEmail.startsWith(searchTerm) &&
-                        userEmail !== searchTerm
-                      );
-                    })
-                    .slice(0, 5)
-                    .map((item) => (
-                      setNewReceiver(item.id),
-                      <button
-                      onClick={() => {
-                        onSearch(item);
-                        setMessageObject({ id: item.id, user: item.email });
-                      }}
-                      className="dropdown-item text-black text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100"
-                      key={item.id}>
-                        {item.uid}
-                      </button>
-                    ))}
+                  {searchForUsers(allUsers)}
                 </ul>
                 <div className="flex flex-col text-black mt-3">
                   <label className="font-medium">Message:</label>

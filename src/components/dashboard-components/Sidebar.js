@@ -81,7 +81,6 @@ const SideBar = (props) => {
     }, 2000);
     return () => clearTimeout(timer);
   }, [chanCreateError, setChanCreateError]);
-
   useEffect(() => {
     loadUsers();
   }, []);
