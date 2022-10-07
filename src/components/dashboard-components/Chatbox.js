@@ -17,7 +17,7 @@ const ChatBox = (props) => {
   useEffect(() => {
     setMessage(message);
   }, [message]);
-  console.log(messageList)
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessage();
