@@ -16,7 +16,7 @@ export default function AddMember(props) {
   return(
     <div className="bg-backdrop justify-center items-center flex fixed inset-0 z-10" 
     onClick={() => setAddMemberModal(false)}>
-      <div className="flex flex-col relative bg-white text-zinc-800 w-1/4 p-8 rounded-2xl h-1/3" 
+      <div className="flex flex-col relative bg-white text-zinc-800 w-1/5 p-8 rounded-xl h-1/3" 
         onClick={(e) => {e.stopPropagation()}}>
         <h1 className="self-start text-3xl font-bold">Add people</h1>
         <span className="text-fuchsia-600"># {activeChannel.name}</span>
@@ -24,7 +24,7 @@ export default function AddMember(props) {
             <label className=" mb-2 font-medium"
               htmlFor="email">Enter user's email
             </label>
-            <input className="h-8 w-2/4 indent-1 border-b-2 outline-none border-fuchsia-700"
+            <input className="h-8 w-3/4 indent-1 border-b-2 outline-none border-fuchsia-700"
             name="email"
             type="email"
             id="email"
@@ -35,7 +35,7 @@ export default function AddMember(props) {
             {addingError &&
               <p className="text-red-400 text-sm mt-1 absolute top-44">User does not exist or already added</p> 
             }   
-            <button className="w-1/3 self-center rounded-md p-2 mt-12 
+            <button className="w-2/4 self-center rounded-md p-2 mt-12 
               font-medium bg-fuchsia-700 hover:bg-fuchsia-500 text-white" 
               type="submit">Add Member
             </button>

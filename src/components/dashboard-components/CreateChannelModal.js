@@ -18,14 +18,14 @@ export default function CreateChannelModal(props) {
   return(
     <div className="bg-backdrop justify-center items-center flex fixed inset-0 z-10" 
     onClick={() => setClickModal(false)}>
-      <div className="flex flex-col relative bg-white text-zinc-800 w-1/4 p-8 rounded-2xl h-2/5" 
+      <div className="flex flex-col relative bg-white text-zinc-800 w-1/5 p-8 rounded-xl h-2/5" 
         onClick={(e) => {e.stopPropagation()}}>
         <h1 className="self-start text-3xl font-bold">Create a channel</h1>
         <form className="flex flex-col mt-6" onSubmit={handleCreateChannel}>
           <label className="mb-2 font-medium" 
             htmlFor="name">Channel name
           </label>
-          <input className="h-8 w-2/4 indent-1 border-b-2 outline-none border-fuchsia-700"
+          <input className="h-8 w-3/4 indent-1 border-b-2 outline-none border-fuchsia-700"
           name="name"
           type="text"
           id="name"
@@ -43,7 +43,7 @@ export default function CreateChannelModal(props) {
             htmlFor="email">Enter user's email
           </label>
           <div className="flex relative">
-            <input className="h-8 w-2/4 indent-1 border-b-2 outline-none border-fuchsia-700"
+            <input className="h-8 w-3/4 indent-1 border-b-2 outline-none border-fuchsia-700"
             name="email"
             type="email"
             id="email"
