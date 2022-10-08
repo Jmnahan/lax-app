@@ -87,7 +87,7 @@ const DMModal = (props) => {
                     sendMessage();
                   }}
                 >
-                  Send Message
+                  {message === '' ? 'Find User' : 'Send Message'}
                 </button>
               </div>
             </div>
