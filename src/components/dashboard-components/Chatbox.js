@@ -17,7 +17,7 @@ const ChatBox = (props) => {
   useEffect(() => {
     setMessage(message);
   }, [message]);
-  console.log(messageList)
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessage();
@@ -39,9 +39,6 @@ const ChatBox = (props) => {
           uid: localUID,
         },
       })
-      .then((response) => {
-        console.log(response.data);
-      });
   };
 
   useEffect(() => {
@@ -85,7 +82,7 @@ const ChatBox = (props) => {
   
   return ( 
     <div className="w-4/5 h-full">
-      <div className="mt-1 py-5 border-b border-gray-700 flex flex-row items-center justify-between">
+      <div className="mt-1 py-4 border-b border-gray-700 flex flex-row items-center justify-between">
         <h2 className="ml-8 text-fuchsia-900 font-bold text-2xl">{receipient}</h2>
       </div>
       <div className="overflow-auto h-84 mr-1" id="custom-style">

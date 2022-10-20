@@ -17,10 +17,9 @@ export default function Register(props) {
     }
   })  
 
-  const handleRegister = async (data) => {
+  const handleRegister = (data) => {
     try {
-      const response = await axios.post("api/v1/auth/", data);
-      console.log("response data",response.data)
+      axios.post("api/v1/auth/", data);
       setIsSubmitted(true)
     } catch (error) {
         const errors = error.response.data.errors
@@ -31,7 +30,7 @@ export default function Register(props) {
             message: messages
           })
         });
-      }
+      } 
   }
 
   useEffect(()=> {

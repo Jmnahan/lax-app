@@ -82,7 +82,6 @@ const DMModal = (props) => {
                   className="bg-fuchsia-700  text-white active:bg-fuchsia-500 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
                   onClick={() => {
-                    console.log(message);
                     setSubmitMessage(true);
                     sendMessage();
                   }}

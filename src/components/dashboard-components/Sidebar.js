@@ -101,9 +101,6 @@ const SideBar = (props) => {
 
   }, [submitMessage, messageObject, userList]);
 
-  // const localUser = {id:localUID, array: userList}
-  // const localMessage = localStorage.setItem("messages",JSON.stringify(localUser))
-
   const sendMessage = async () => {
     const newMessage = {
       receiver_id: newReceiver,
@@ -120,11 +117,6 @@ const SideBar = (props) => {
         },
       })
       .then((response) => {
-        console.log(response);
-        // const email = response.data.data.id
-        // const data = response.data.data.body
-        // console.log(email, data)
-        // console.log(messageObject)
         setModalDM(false);
       });
   };
