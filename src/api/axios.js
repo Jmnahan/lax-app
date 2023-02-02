@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://206.189.91.54/",
+  baseURL: `${process.env.REACT_APP_AVION_API}`,
 });
